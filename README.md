@@ -25,6 +25,8 @@
 - Uso del Proyecto
 - Rutas y Endpoints
 - Roles y Permisos
+- Patrones de Diseño Implementados
+- Principios SOLID Aplicados
 - Créditos
 - Licencia
 
@@ -81,12 +83,49 @@ Autenticación:
 El sistema utiliza tokens JWT para autenticar a los usuarios en cada solicitud. Los tokens deben
 incluirse en el encabezado de las solicitudes protegidas.
 
-***6. Créditos***
+***6. Patrones de Diseño Implementados***
+Singleton (Gestión de Conexión a la Base de Datos):
+Se implementó el patrón Singleton en la configuración de Sequelize en db.js. Esto garantiza que 
+solo haya una instancia de la conexión a la base de datos en toda la aplicación, evitando múltiples
+conexiones innecesarias.
+
+Factory Method (Creación de Modelos):
+Se implementó el patrón Factory Method en los modelos de Sequelize (models/*.js). Se encapsuló la 
+lógica de creación de modelos, facilitando su mantenimiento y evitando la repetición de código.
+
+***7. Principios SOLID Aplicados***
+Principio de Responsabilidad Única (SRP):
+Cada controlador (controllers/*.js) solo maneja una única responsabilidad.
+- UserController.js maneja autenticación y gestión de usuarios.
+- CourseController.js gestiona los cursos.
+- InscripcionController.js gestiona inscripciones.
+
+Principio de Abierto/Cerrado (OCP):
+Las rutas y controladores están abiertos a extensiones pero cerrados a modificaciones. Se pueden 
+agregar nuevas funcionalidades sin modificar el código base, como agregar nuevos métodos en 
+controladores sin afectar las funciones existentes.
+
+Principio de Sustitución de Liskov (LSP):
+Se aplica en la relación entre usuarios, alumnos e instructores. Los modelos AlumnoModel.js e 
+InstructorModel.js extienden de UserModel.js, permitiendo su uso intercambiable sin modificar el 
+comportamiento del código.
+
+Principio de Segregación de Interfaces (ISP):
+Cada modelo de Sequelize (models/*.js) solo contiene las propiedades y relaciones necesarias. 
+AlumnoModel.js no tiene información de instructores, y InstructorModel.js no almacena información 
+innecesaria de alumnos.
+
+Principio de Inversión de Dependencias (DIP):
+Se usa inyección de dependencias en los controladores, pasando las instancias necesarias en lugar 
+de crearlas dentro de las funciones. UserController.js recibe el modelo de UserModel como dependencia 
+en lugar de importarlo directamente.
+
+***8. Créditos***
 Este proyecto fue desarrollado por Tu Nombre, con el objetivo de implementar un sistema de 
 gestión de cursos para diferentes tipos de usuarios. Se agradece a la comunidad de desarrolladores
 y recursos en línea que proporcionaron inspiración y soporte técnico para la finalización de este proyecto.
 
-***7. Licencia***
+***9. Licencia***
 Este proyecto está licenciado bajo la Licencia GPL. Esto permite a otros usuarios modificar y distribuir el
 proyecto bajo los mismos términos de la licencia GPL.
 
